@@ -1,10 +1,18 @@
+using HarmonyLib;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace NSimpleDeposit
 {
     internal static class ContainerService
     {
+        // Container.CheckAccess(long) is private in the actual game assembly loaded at runtime -
+        // compiling against a publicized reference assembly only satisfies the C# compiler, it does
+        // not change the accessibility the CLR enforces against the real assembly, so a direct call
+        // throws MethodAccessException. Call it via reflection instead, the same way
+        // InventorySortService reaches Inventory's private Changed(bool,bool) method.
+        private static readonly MethodInfo CheckAccessMethod = AccessTools.Method(typeof(Container), "CheckAccess", new[] { typeof(long) });
         internal static List<Container> GetNearbyContainers(Player player)
         {
             List<Container> containers = new List<Container>();
@@ -52,10 +60,11 @@ namespace NSimpleDeposit
         /// Mirrors the two gates the game itself applies in Container.Interact() (verified against
         /// the decompiled game code): a ward check via PrivateArea.CheckAccess() (only when the
         /// container actually opts into guard stone checking via m_checkGuardStone, same as vanilla),
-        /// and the container's own private-vs-public setting via its internal CheckAccess(playerID)
-        /// (publicized like the rest of the game assembly). A container inside a ward the player lacks
-        /// permission for, or one explicitly set to Private by someone else, is excluded either way -
-        /// this never grants access to anything the player couldn't already open and use by hand.
+        /// and the container's own private-vs-public setting via its internal CheckAccess(playerID),
+        /// invoked via <see cref="CheckAccessMethod"/> since it's private at runtime. A container
+        /// inside a ward the player lacks permission for, or one explicitly set to Private by someone
+        /// else, is excluded either way - this never grants access to anything the player couldn't
+        /// already open and use by hand.
         /// </summary>
         internal static bool IsAccessibleContainer(Container container)
         {
@@ -76,9 +85,14 @@ namespace NSimpleDeposit
                 return false;
             }
 
+            if (CheckAccessMethod == null)
+            {
+                return false;
+            }
+
             long playerId = Game.instance.GetPlayerProfile().GetPlayerID();
 
-            return container.CheckAccess(playerId);
+            return (bool)CheckAccessMethod.Invoke(container, new object[] { playerId });
         }
 
         /// <summary>
