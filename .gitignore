@@ -33,6 +33,7 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
+CLAUDE.md
 
 # Mod packaging output (if you zip builds for Thunderstore, etc.)
 *.zip

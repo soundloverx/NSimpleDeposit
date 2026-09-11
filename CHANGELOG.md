@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.0.1
+- Quick Stack: a stack that only partially fits (e.g. topping off an existing 35/50 stack) is now topped off instead of being skipped entirely. Previously, an item was only moved if the whole carried stack could fit; now it deposits as much as the chest has room for and leaves the remainder in your inventory.
+
 ## v1.0.0
 - Initial release, forked from HexQuickStackStorage v1.0.0 as its own mod.
 - Quick Stack: automatically move matching items from your inventory into nearby accessible chests.

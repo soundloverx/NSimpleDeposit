@@ -76,8 +76,9 @@ namespace NSimpleDeposit
                     continue;
                 }
 
-                if (!containerInventory.CanAddItem(item))
+                if (!containerInventory.CanAddItem(item, 1))
                 {
+                    // no room for even a single unit, don't bother trying
                     continue;
                 }
 
@@ -92,10 +93,7 @@ namespace NSimpleDeposit
                     ownershipEnsured = true;
                 }
 
-                if (containerInventory.AddItem(item))
-                {
-                    playerInventory.RemoveItem(item);
-                }
+                containerInventory.MoveItemToThis(playerInventory, item);
             }
         }
 

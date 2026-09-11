@@ -19,10 +19,12 @@ Items will only be moved if:
 - The item is not marked as **locked**
 - The item is inside the normal player inventory
 - A nearby chest you have access to already contains that item type
-- The chest has enough room for the item
+- The chest has at least some room for the item
 - Nobody else currently has that chest open
 
 Items will not be stored in empty chests or chests that do not already contain that item.
+
+If a chest only has room for part of a stack (e.g. topping off an existing stack of 35/50), that partial amount is deposited and the rest stays in your inventory, rather than skipping the item entirely.
 
 ### Sort
 
