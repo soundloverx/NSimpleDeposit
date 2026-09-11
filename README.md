@@ -1,2 +1,74 @@
 # NSimpleDeposit
-Valheim mod for depositing inventory items into available nearby containers
+
+A private mod for personal use with friends - not published on Thunderstore.
+
+Automatically store items from your inventory into nearby chests you have access to, within a configurable radius. Also sorts your inventory and any chest you open, and lets you lock item types so they're never auto-deposited.
+
+Originally forked from Hex_Viking's **HexQuickStackStorage** (itself inspired by Goldenrevolver's **Quick Stack Store Sort Trash**), then diverged enough - dropped the trash/delete feature, added item locking, and access to any chest you have rights to rather than only ones you built - to become its own mod.
+
+## Instructions
+
+### Quick Stack
+
+Click the **Q** button in your inventory or use the configured Quick Stack keyboard shortcut (default `P`).
+
+Items will only be moved if:
+
+- The item is not equipped
+- The item is not in your hotbar
+- The item is not marked as **locked**
+- The item is inside the normal player inventory
+- A nearby chest you have access to already contains that item type
+- The chest has enough room for the item
+- Nobody else currently has that chest open
+
+Items will not be stored in empty chests or chests that do not already contain that item.
+
+### Sort
+
+Click the **S** button to sort your inventory.
+
+If a chest is currently open, the chest will also be sorted, and any player-built chest you have access to is also sorted automatically the moment you open it.
+
+The player's hotbar, equipped items, and locked items will not be moved.
+
+### Lock Items
+
+Hold **Alt** and **Right Click** an item to mark that item type as locked.
+
+Locked items will have a blue border around them.
+
+Locked items are:
+
+- Skipped by Quick Stack, so they will never be automatically moved into a chest
+- Left in place when sorting, just like equipped and hotbar items
+
+Alt + Right Click the item again to remove the lock.
+
+Once an item type is marked as locked, newly picked up items of that same type will also be locked.
+
+Lock selections are saved per character (stored in that character's own save data, alongside things like skills and known recipes), so they follow that character into any world but are not shared with your other characters.
+
+## Container Access
+
+Quick Stack and chest sorting work with any player-built container you currently have access to, not only ones you personally built.
+
+A container inside another player's ward that you aren't permitted in is skipped, the same way opening it by hand would be blocked. A container in your own ward, in a ward you're permitted in, or with no ward at all, is fair game. A chest someone has explicitly set to Private is also skipped unless you're its creator, again matching normal chest rules.
+
+A chest another player currently has open is left alone entirely for that pass, rather than claiming it out from under them.
+
+Naturally generated/world containers (e.g. dungeon loot) are always ignored.
+
+## Multiplayer
+
+- Client-side mod
+- Does not have server sync
+- Access to a container is checked using the same ward and privacy rules the base game uses
+- Writing to a container claims network ownership of it first (mirroring how the game's own "Take All" does it), so items don't get silently lost when writing into a chest another peer currently owns
+
+## Configuration
+
+Configuration options include:
+
+- Quick Stack search radius
+- Quick Stack keyboard shortcut
