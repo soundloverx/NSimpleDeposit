@@ -10,7 +10,6 @@ namespace NSimpleDeposit
     {
         private const string SortButtonName = "NSDSortButton";
         private const string QuickStackButtonName = "NSDQuickStackButton";
-
         private const float ButtonSize = 36f;
         private const float ButtonSpacing = 4f;
 

@@ -3,22 +3,6 @@ using System.IO;
 
 namespace NSimpleDeposit
 {
-    /// <summary>
-    /// Tracks which item types the player has marked as locked (never auto-deposited, left in place
-    /// when sorting). Locks are stored per character, not per BepInEx install: they live directly in
-    /// the vanilla <see cref="Player.m_customData"/> dictionary, the same general-purpose string
-    /// key/value store the base game already saves and loads as part of that character's own data
-    /// (verified against the decompiled game code - Player.Save/Load read and write it via ZPackage
-    /// alongside everything else on the character, independent of which world it's used in). This
-    /// means a lock follows a specific character everywhere it goes, exactly like the character's
-    /// skills or known recipes, rather than being shared globally across every character on the
-    /// machine the way a BepInEx config-folder file would be.
-    ///
-    /// Each locked item type is stored as its own dictionary entry (key: <see cref="LockedKeyPrefix"/>
-    /// + item name, value: "1") rather than one entry containing every name, so no custom
-    /// serialization format is needed and no explicit save call is required - the entry rides along
-    /// with the next time the game itself saves the character.
-    /// </summary>
     internal static class LockService
     {
         private const string LockedKeyPrefix = "NSimpleDeposit.Locked:";

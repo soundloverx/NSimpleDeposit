@@ -85,10 +85,7 @@ namespace NSimpleDeposit
                 {
                     if (!ContainerService.EnsureOwnership(container))
                     {
-                        // Someone else currently has this container open, or ownership couldn't be
-                        // claimed for some other reason - leave it alone entirely this pass rather
-                        // than write into it without owning it (see EnsureOwnership for why that's
-                        // unsafe).
+                        // someone else currently has this container open
                         return;
                     }
 
