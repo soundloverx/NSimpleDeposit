@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.0.2
+- Quick Stack (keyboard shortcut only): now shows an on-screen message summarizing what happened, since pressing the hotkey outside your inventory previously gave no feedback:
+  - `All items deposited` - everything that could be moved was moved.
+  - `x/y items deposited` - only part of what you carried was moved; `y` counts every item you held that was eligible to be considered (including ones that never matched any nearby chest), `x` counts how many of those units actually got deposited.
+  - `No room for items` - one or more of your items already exist in a nearby chest, but none of those chests had space.
+  - `Cannot auto-deposit new items` - none of your eligible items exist in any nearby chest yet (Quick Stack only tops off item types a chest already holds, it never seeds a chest with a new item type).
+  - `No available containers` - no accessible chest was found within the search radius.
+  - No message at all when there's nothing in your inventory worth considering (e.g. it's empty, or everything left is equipped/locked).
+
 ## v1.0.1
 - Quick Stack: a stack that only partially fits (e.g. topping off an existing 35/50 stack) is now topped off instead of being skipped entirely. Previously, an item was only moved if the whole carried stack could fit; now it deposits as much as the chest has room for and leaves the remainder in your inventory.
 

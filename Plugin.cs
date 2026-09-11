@@ -15,7 +15,7 @@ namespace NSimpleDeposit
     {
         private const string PluginGuid = "NSimpleDeposit";
         private const string PluginName = "NSimpleDeposit";
-        private const string PluginVersion = "1.0.1";
+        private const string PluginVersion = "1.0.2";
 
         internal static Plugin Instance { get; private set; }
         internal static ManualLogSource Log { get; private set; }
@@ -75,7 +75,40 @@ namespace NSimpleDeposit
                 return;
             }
 
-            QuickStackService.QuickStack(player);
+            QuickStackResult result = QuickStackService.QuickStack(player);
+            ShowQuickStackResultMessage(player, result);
+        }
+
+        private static void ShowQuickStackResultMessage(Player player, QuickStackResult result)
+        {
+            switch (result.Outcome)
+            {
+                case QuickStackOutcome.NoContainersFound:
+                    player.Message(MessageHud.MessageType.Center, "No available containers");
+                    break;
+
+                case QuickStackOutcome.NothingToDeposit:
+                    break;
+
+                case QuickStackOutcome.NoMatchingItems:
+                    player.Message(MessageHud.MessageType.Center, "Cannot auto-deposit new items");
+                    break;
+
+                case QuickStackOutcome.NoRoomForItems:
+                    player.Message(MessageHud.MessageType.Center, "No room for items");
+                    break;
+
+                case QuickStackOutcome.ItemsDeposited:
+                    if (result.Deposited >= result.TotalEligible)
+                    {
+                        player.Message(MessageHud.MessageType.Center, "All items deposited");
+                    }
+                    else
+                    {
+                        player.Message(MessageHud.MessageType.Center, $"{result.Deposited}/{result.TotalEligible} items deposited");
+                    }
+                    break;
+            }
         }
 
         private void OnDestroy()

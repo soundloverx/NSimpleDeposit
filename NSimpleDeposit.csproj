@@ -99,6 +99,7 @@
     <Compile Include="Services\InventorySortService.cs" />
     <Compile Include="Services\LockService.cs" />
     <Compile Include="Services\PlayerInventoryService.cs" />
+    <Compile Include="Services\QuickStackResult.cs" />
     <Compile Include="Services\QuickStackService.cs" />
     <Compile Include="UI\InventoryUiController.cs" />
     <Compile Include="UI\LockBorderRenderer.cs" />

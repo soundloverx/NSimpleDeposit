@@ -26,6 +26,15 @@ Items will not be stored in empty chests or chests that do not already contain t
 
 If a chest only has room for part of a stack (e.g. topping off an existing stack of 35/50), that partial amount is deposited and the rest stays in your inventory, rather than skipping the item entirely.
 
+When triggered via the keyboard shortcut, a message is shown summarizing what happened (the **Q** button doesn't show this, since you can already see the result in the inventory UI):
+
+- `All items deposited` - everything that could be moved was moved.
+- `x/y items deposited` - only part of what you carried was moved. `y` is every item you held that was worth considering, including ones that don't yet exist in any nearby chest; `x` is how many of those actually got deposited.
+- `No room for items` - some of your items already exist in a nearby chest, but none of those chests had space.
+- `Cannot auto-deposit new items` - none of your items exist in any nearby chest yet. Quick Stack only tops off an item type a chest already holds; it never seeds a chest with a type it doesn't have.
+- `No available containers` - no accessible chest was found within the search radius.
+- Nothing is shown when there's nothing in your inventory worth considering at all (e.g. it's empty, or everything left is equipped or locked).
+
 ### Sort
 
 Click the **S** button to sort your inventory.
