@@ -32,6 +32,8 @@ If a chest is currently open, the chest will also be sorted, and any player-buil
 
 The player's hotbar, equipped items, and locked items will not be moved.
 
+Partial stacks of the same item type and quality are combined into as few stacks as possible first (e.g. two stacks of 10 Wood become one stack of 20), freeing up slots before the remaining items are placed. Equipped items, hotbar items, and locked item types are never topped up or drained by this - they stay exactly as they are.
+
 ### Lock Items
 
 Hold **Alt** and **Right Click** an item to mark that item type as locked.

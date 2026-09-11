@@ -118,6 +118,8 @@ namespace NSimpleDeposit
                 itemsToSort.Add(item);
             }
 
+            MergeStacks(inventory, itemsToSort);
+
             itemsToSort.Sort(CompareItems);
 
             int itemIndex = 0;
@@ -138,6 +140,75 @@ namespace NSimpleDeposit
             }
 
             ChangedMethod?.Invoke(inventory, ChangedArguments);
+        }
+
+        private static void MergeStacks(Inventory inventory, List<ItemDrop.ItemData> itemsToSort)
+        {
+            if (itemsToSort.Count <= 1)
+            {
+                return;
+            }
+
+            Dictionary<(string name, int quality), List<ItemDrop.ItemData>> groups = new Dictionary<(string, int), List<ItemDrop.ItemData>>();
+
+            foreach (ItemDrop.ItemData item in itemsToSort)
+            {
+                if (item.m_shared.m_maxStackSize <= 1)
+                {
+                    continue;
+                }
+
+                (string name, int quality) key = (item.m_shared.m_name, item.m_quality);
+
+                if (!groups.TryGetValue(key, out List<ItemDrop.ItemData> group))
+                {
+                    group = new List<ItemDrop.ItemData>();
+                    groups[key] = group;
+                }
+
+                group.Add(item);
+            }
+
+            foreach (List<ItemDrop.ItemData> group in groups.Values)
+            {
+                if (group.Count <= 1)
+                {
+                    continue;
+                }
+
+                int maxStackSize = group[0].m_shared.m_maxStackSize;
+                int targetIndex = 0;
+
+                for (int sourceIndex = 1; sourceIndex < group.Count; sourceIndex++)
+                {
+                    ItemDrop.ItemData source = group[sourceIndex];
+
+                    while (source.m_stack > 0 && targetIndex < sourceIndex)
+                    {
+                        ItemDrop.ItemData target = group[targetIndex];
+                        int room = maxStackSize - target.m_stack;
+
+                        if (room <= 0)
+                        {
+                            targetIndex++;
+                            continue;
+                        }
+
+                        int amount = Mathf.Min(room, source.m_stack);
+                        target.m_stack += amount;
+                        source.m_stack -= amount;
+                    }
+                }
+            }
+
+            for (int i = itemsToSort.Count - 1; i >= 0; i--)
+            {
+                if (itemsToSort[i].m_stack <= 0)
+                {
+                    inventory.RemoveItem(itemsToSort[i]);
+                    itemsToSort.RemoveAt(i);
+                }
+            }
         }
 
         private static bool IsValidSlot(Vector2i position, int width, int height)

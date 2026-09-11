@@ -17,7 +17,7 @@
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\AppData\Roaming\Thunderstore Mod Manager\DataFolder\Valheim\profiles\QoL_1.0.1\BepInEx\plugins\NSimpleDeposit\</OutputPath>
+    <OutputPath>..\..\..\..\AppData\Roaming\Thunderstore Mod Manager\DataFolder\Valheim\profiles\QoL_1.0\BepInEx\plugins\NSimpleDeposit\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
