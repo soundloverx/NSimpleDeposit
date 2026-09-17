@@ -15,17 +15,19 @@ namespace NSimpleDeposit
     {
         private const string PluginGuid = "NSimpleDeposit";
         private const string PluginName = "NSimpleDeposit";
-        private const string PluginVersion = "1.0.2";
+        private const string PluginVersion = "1.1.0";
 
         internal static Plugin Instance { get; private set; }
         internal static ManualLogSource Log { get; private set; }
 
         private ConfigEntry<float> _searchRadius;
         private ConfigEntry<KeyboardShortcut> _quickStackShortcut;
+        private ConfigEntry<KeyboardShortcut> _fillAllModifierKey;
         private Harmony _harmonyInstance;
 
         internal static float SearchRadius => Instance?._searchRadius != null ? Instance._searchRadius.Value : 25f;
         internal static KeyboardShortcut QuickStackShortcut => Instance?._quickStackShortcut != null ? Instance._quickStackShortcut.Value : new KeyboardShortcut(KeyCode.P);
+        internal static KeyboardShortcut FillAllModifierKey => Instance?._fillAllModifierKey != null ? Instance._fillAllModifierKey.Value : new KeyboardShortcut(KeyCode.LeftShift);
 
         private void Awake()
         {
@@ -47,6 +49,13 @@ namespace NSimpleDeposit
                 "QuickStackShortcut",
                 new KeyboardShortcut(KeyCode.P),
                 "Keyboard shortcut used to quick stack nearby containers."
+            );
+
+            _fillAllModifierKey = Config.Bind(
+                "General",
+                "FillAllModifierKey",
+                new KeyboardShortcut(KeyCode.LeftShift),
+                "Hold this modifier while using a fireplace/light or a smelter/kiln to fill it to capacity (fuel or ore) from your inventory and nearby containers in one interaction, instead of adding one unit at a time."
             );
 
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -91,7 +100,7 @@ namespace NSimpleDeposit
                     break;
 
                 case QuickStackOutcome.NoMatchingItems:
-                    player.Message(MessageHud.MessageType.Center, "Cannot auto-deposit new items");
+                    player.Message(MessageHud.MessageType.Center, "No matching containers");
                     break;
 
                 case QuickStackOutcome.NoRoomForItems:

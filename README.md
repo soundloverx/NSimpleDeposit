@@ -31,7 +31,7 @@ When triggered via the keyboard shortcut, a message is shown summarizing what ha
 - `All items deposited` - everything that could be moved was moved.
 - `x/y items deposited` - only part of what you carried was moved. `y` is every item you held that was worth considering, including ones that don't yet exist in any nearby chest; `x` is how many of those actually got deposited.
 - `No room for items` - some of your items already exist in a nearby chest, but none of those chests had space.
-- `Cannot auto-deposit new items` - none of your items exist in any nearby chest yet. Quick Stack only tops off an item type a chest already holds; it never seeds a chest with a type it doesn't have.
+- `No matching containers` - none of your items exist in any nearby chest yet. Quick Stack only tops off an item type a chest already holds; it never seeds a chest with a type it doesn't have.
 - `No available containers` - no accessible chest was found within the search radius.
 - Nothing is shown when there's nothing in your inventory worth considering at all (e.g. it's empty, or everything left is equipped or locked).
 
@@ -62,6 +62,21 @@ Once an item type is marked as locked, newly picked up items of that same type w
 
 Lock selections are saved per character (stored in that character's own save data, alongside things like skills and known recipes), so they follow that character into any world but are not shared with your other characters.
 
+### Build & Craft From Containers
+
+While building pieces or crafting at a workbench/station, materials missing from your own inventory are automatically pulled from nearby chests you have access to - the same range and access rules as Quick Stack apply (see [Container Access](#container-access)).
+
+Feeding fuel, ore, ingredients, or ammo also pulls from nearby chests when your own inventory doesn't have any:
+
+- Fireplaces (campfires, hearths, bonfires) - fuel
+- Smelters, charcoal kilns, and blast furnaces - ore and fuel
+- Cooking stations (cooking station, iron cooking station, stone oven, and similar) - fuel and the food being cooked
+- Turrets - ammunition
+
+The crafting/building requirement panel always shows the combined inventory + nearby-container amount (e.g. `200/4` if you need 4 wood and have 200 spread across your inventory and nearby chests combined), instead of vanilla's plain required-amount display. It's highlighted when nearby containers are what's making up the difference.
+
+Holding the fill-all modifier key (default **Left Shift**) while interacting with a fireplace/light, a smelter/kiln, or a cooking station's fuel switch fills it to capacity in one go - fuel or ore is pulled from your inventory first, then nearby containers, instead of adding one unit per interaction. A hover-text hint appears on these objects showing the key when using it would do something.
+
 ## Container Access
 
 Quick Stack and chest sorting work with any player-built container you currently have access to, not only ones you personally built.
@@ -83,5 +98,6 @@ Naturally generated/world containers (e.g. dungeon loot) are always ignored.
 
 Configuration options include:
 
-- Quick Stack search radius
+- Search radius (shared by Quick Stack and Build & Craft From Containers)
 - Quick Stack keyboard shortcut
+- Fill-all modifier key (default Left Shift)

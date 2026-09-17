@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.0
+- Build & Craft From Containers: building pieces, crafting recipes, and feeding fireplaces/lights, smelters (smelter, charcoal kiln, blast furnace), cooking stations (cooking station, iron cooking station, stone oven, and any other variant of the same object), and turrets can now pull missing materials from nearby accessible chests, using the same search radius and access rules as Quick Stack.
+  - The crafting/building requirement panel now always shows the combined inventory + nearby-container amount (e.g. `200/4`) instead of just the required amount, and highlights it when containers are what's making up the difference.
+  - Holding the new fill-all modifier key (default Left Shift) while using a fireplace/light or a smelter/kiln/cooking station fills its fuel to capacity from your inventory and nearby containers in one interaction, instead of adding one unit at a time. A hover-text hint shows the key when it would do something.
+- Quick Stack: the "nothing to top off" message was reworded from `Cannot auto-deposit new items` to `No matching containers`.
+
 ## v1.0.2
 - Quick Stack (keyboard shortcut only): now shows an on-screen message summarizing what happened, since pressing the hotkey outside your inventory previously gave no feedback:
   - `All items deposited` - everything that could be moved was moved.

@@ -1,16 +1,11 @@
-using HarmonyLib;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 namespace NSimpleDeposit
 {
     internal static class InventorySortService
     {
-        private static readonly MethodInfo ChangedMethod = AccessTools.Method(typeof(Inventory), "Changed", new[] { typeof(bool), typeof(bool) });
-        private static readonly object[] ChangedArguments = { false, false };
-
         internal static void SortPlayerInventory()
         {
             Player player = Player.m_localPlayer;
@@ -139,7 +134,7 @@ namespace NSimpleDeposit
                 }
             }
 
-            ChangedMethod?.Invoke(inventory, ChangedArguments);
+            ContainerService.NotifyInventoryChanged(inventory);
         }
 
         private static void MergeStacks(Inventory inventory, List<ItemDrop.ItemData> itemsToSort)
