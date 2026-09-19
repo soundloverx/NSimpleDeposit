@@ -184,18 +184,19 @@ namespace NSimpleDeposit
                 }
 
                 int remaining = required - fromInventory;
+                int fromContainers = 0;
 
-                if (remaining <= 0)
+                if (remaining > 0)
                 {
-                    continue;
+                    if (containers == null)
+                    {
+                        containers = ContainerService.GetNearbyContainers(player);
+                    }
+
+                    fromContainers = ContainerItemService.RemoveItem(containers, itemName, remaining);
                 }
 
-                if (containers == null)
-                {
-                    containers = ContainerService.GetNearbyContainers(player);
-                }
-
-                ContainerItemService.RemoveItem(containers, itemName, remaining);
+                Plugin.Log.LogInfo($"Consumed {itemName}: required {required} (quality {qualityLevel}, multiplier {multiplier}), inventory {fromInventory}, containers {fromContainers}, frame {Time.frameCount}.");
             }
         }
 

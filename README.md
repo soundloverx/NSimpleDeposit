@@ -66,14 +66,16 @@ Lock selections are saved per character (stored in that character's own save dat
 
 While building pieces or crafting at a workbench/station, materials missing from your own inventory are automatically pulled from nearby chests you have access to - the same range and access rules as Quick Stack apply (see [Container Access](#container-access)).
 
-Feeding fuel, ore, ingredients, or ammo also pulls from nearby chests when your own inventory doesn't have any:
+Feeding fuel, ore, or ammo also pulls from nearby chests when your own inventory doesn't have any:
 
 - Fireplaces (campfires, hearths, bonfires) - fuel
 - Smelters, charcoal kilns, and blast furnaces - ore and fuel
-- Cooking stations (cooking station, iron cooking station, stone oven, and similar) - fuel and the food being cooked
+- Cooking stations (cooking station, iron cooking station, stone oven, and similar) - fuel only (food to cook still has to come from your inventory)
 - Turrets - ammunition
 
 The crafting/building requirement panel always shows the combined inventory + nearby-container amount (e.g. `200/4` if you need 4 wood and have 200 spread across your inventory and nearby chests combined), instead of vanilla's plain required-amount display. It's highlighted when nearby containers are what's making up the difference.
+
+If another installed mod that also pulls from nearby containers has already paid for a build or craft, this mod leaves it alone instead of paying a second time. Running two mods that do the same job is still best avoided, since they can disagree about what's available.
 
 Holding the fill-all modifier key (default **Left Shift**) while interacting with a fireplace/light, a smelter/kiln, or a cooking station's fuel switch fills it to capacity in one go - fuel or ore is pulled from your inventory first, then nearby containers, instead of adding one unit per interaction. A hover-text hint appears on these objects showing the key when using it would do something.
 

@@ -7,51 +7,9 @@ namespace NSimpleDeposit.Patches
     [HarmonyPatch]
     internal static class CookingStationSupplyPatch
     {
-        // OnInteract is the shared entry point both a plain interact and a dedicated "add food" switch
-        // funnel through. If the player isn't already carrying a cookable ingredient, top their
-        // inventory up with one from a nearby container first, then let vanilla's own cooking logic
-        // (fire/slot checks, skill gain, RPC_AddItem, messaging) run completely unmodified.
-        [HarmonyPatch(typeof(CookingStation), nameof(CookingStation.OnInteract))]
-        [HarmonyPrefix]
-        private static bool OnInteractPrefix(CookingStation __instance, Humanoid user)
-        {
-            Player player = user as Player;
-
-            if (player == null)
-            {
-                return true;
-            }
-
-            Inventory inventory = user.GetInventory();
-
-            if (inventory == null)
-            {
-                return true;
-            }
-
-            foreach (CookingStation.ItemConversion conversion in __instance.m_conversion)
-            {
-                if (inventory.HaveItem(conversion.m_from.m_itemData.m_shared.m_name))
-                {
-                    return true;
-                }
-            }
-
-            List<Container> containers = ContainerService.GetNearbyContainers(player);
-
-            foreach (CookingStation.ItemConversion conversion in __instance.m_conversion)
-            {
-                string itemName = conversion.m_from.m_itemData.m_shared.m_name;
-
-                if (ContainerItemService.TransferItem(containers, inventory, itemName, 1) > 0)
-                {
-                    break;
-                }
-            }
-
-            return true;
-        }
-
+        // Only fuel is pulled from containers here. Ingredients being cooked are deliberately left to
+        // vanilla: OnInteract also collects finished food, so topping up the inventory with a raw item
+        // ahead of it handed out a stray raw item every time the food was taken off the station.
         [HarmonyPatch(typeof(CookingStation), nameof(CookingStation.OnAddFuelSwitch))]
         [HarmonyPrefix]
         private static bool OnAddFuelSwitchPrefix(CookingStation __instance, Humanoid user, ItemDrop.ItemData item, ref bool __result, ZNetView ___m_nview)

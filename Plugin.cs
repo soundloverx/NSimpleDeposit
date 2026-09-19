@@ -15,7 +15,7 @@ namespace NSimpleDeposit
     {
         private const string PluginGuid = "NSimpleDeposit";
         private const string PluginName = "NSimpleDeposit";
-        private const string PluginVersion = "1.1.0";
+        private const string PluginVersion = "1.1.1";
 
         internal static Plugin Instance { get; private set; }
         internal static ManualLogSource Log { get; private set; }
@@ -67,13 +67,14 @@ namespace NSimpleDeposit
 
         private void Update()
         {
-            if (IsTypingInInputField())
+            if (!QuickStackShortcut.IsDown())
             {
                 return;
             }
 
-            if (!QuickStackShortcut.IsDown())
+            if (IsTypingInInputField())
             {
+                Log.LogInfo("Quick stack hotkey ignored: an input field is focused.");
                 return;
             }
 
@@ -85,6 +86,7 @@ namespace NSimpleDeposit
             }
 
             QuickStackResult result = QuickStackService.QuickStack(player);
+            Log.LogInfo($"Quick stack: {result.Outcome} ({result.Deposited}/{result.TotalEligible}).");
             ShowQuickStackResultMessage(player, result);
         }
 
@@ -138,7 +140,12 @@ namespace NSimpleDeposit
 
             GameObject selectedObject = EventSystem.current.currentSelectedGameObject;
 
-            return selectedObject.GetComponent<InputField>() != null || selectedObject.GetComponent<TMP_InputField>() != null;
+            // The EventSystem keeps pointing at an input field after its panel is closed (e.g. the portal/sign
+            // text dialog only deactivates its panel), so being selected isn't enough - it has to be focused.
+            InputField legacyField = selectedObject.GetComponent<InputField>();
+            TMP_InputField tmpField = selectedObject.GetComponent<TMP_InputField>();
+
+            return (legacyField != null && legacyField.isFocused) || (tmpField != null && tmpField.isFocused);
         }
     }
 }

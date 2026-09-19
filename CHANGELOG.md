@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.1
+- Cooking stations (cooking station, iron cooking station, and similar) no longer pull the food to cook from nearby chests. Interacting to collect finished food also triggered that pull, so each collection handed you a stray raw item from a chest. Fuel is still pulled from chests, including with the fill-all modifier.
+- Build & Craft From Containers: no longer pays a second time when another mod that also pulls from nearby containers has already paid for the build/craft, which could consume double the materials.
+- Quick Stack hotkey: no longer stays unresponsive until the inventory is opened after closing a text dialog (such as naming a portal); it now only ignores the hotkey while a text field is actually focused.
+- Added log lines for Quick Stack results and for consumed build/craft materials to help diagnose issues.
+
 ## v1.1.0
 - Build & Craft From Containers: building pieces, crafting recipes, and feeding fireplaces/lights, smelters (smelter, charcoal kiln, blast furnace), cooking stations (cooking station, iron cooking station, stone oven, and any other variant of the same object), and turrets can now pull missing materials from nearby accessible chests, using the same search radius and access rules as Quick Stack.
   - The crafting/building requirement panel now always shows the combined inventory + nearby-container amount (e.g. `200/4`) instead of just the required amount, and highlights it when containers are what's making up the difference.
