@@ -106,6 +106,7 @@
     <Compile Include="Services\BuildCraftService.cs" />
     <Compile Include="Services\ContainerItemService.cs" />
     <Compile Include="Services\ContainerService.cs" />
+    <Compile Include="Services\HotbarSwapService.cs" />
     <Compile Include="Services\InputService.cs" />
     <Compile Include="Services\InventorySortService.cs" />
     <Compile Include="Services\LockService.cs" />

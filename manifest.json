@@ -1,6 +1,6 @@
 {
   "name": "NSimpleDeposit",
-  "version_number": "1.1.1",
+  "version_number": "1.2.0",
   "website_url": "",
   "description": "Private mod: quick stack, sort and lock items in your inventory. Not published on Thunderstore.",
   "dependencies": [

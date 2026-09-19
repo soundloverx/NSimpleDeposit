@@ -24,7 +24,7 @@ namespace NSimpleDeposit
 
             int vanillaHeight = PlayerInventoryService.GetVanillaHeight(player);
 
-            Sort(inventory, vanillaHeight, true);
+            Sort(inventory, vanillaHeight, true, true);
         }
 
         internal static void SortContainer(Container container)
@@ -58,10 +58,10 @@ namespace NSimpleDeposit
                 return;
             }
 
-            Sort(inventory, inventory.GetHeight(), false);
+            Sort(inventory, inventory.GetHeight(), false, false);
         }
 
-        private static void Sort(Inventory inventory, int validHeight, bool preserveHotbar)
+        private static void Sort(Inventory inventory, int validHeight, bool preserveHotbar, bool respectLocks)
         {
             List<ItemDrop.ItemData> allItems = inventory.GetAllItems();
 
@@ -104,7 +104,7 @@ namespace NSimpleDeposit
                     continue;
                 }
 
-                if (LockService.IsLocked(item))
+                if (respectLocks && LockService.IsLocked(item))
                 {
                     reservedSlots.Add((item.m_gridPos.x, item.m_gridPos.y));
                     continue;

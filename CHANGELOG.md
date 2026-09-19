@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.0
+- Hotbar Swap: new keyboard shortcut (default backtick, configurable as `HotbarSwapShortcut`) that swaps the first inventory row (your hotbar) with the second row, so you can flip between two hotbar setups (e.g. tools and weapons) without opening the inventory. Only those two rows are swapped. Locked and equipped items simply move with their row, and a `Hotbar swapped` message is shown so an accidental press is noticeable. The shortcut is ignored while a text field is focused.
+- Sort: locks now only apply to your own inventory. Sorting a chest sorts every item in it, including item types you have locked.
+
 ## v1.1.1
 - Cooking stations (cooking station, iron cooking station, and similar) no longer pull the food to cook from nearby chests. Interacting to collect finished food also triggered that pull, so each collection handed you a stray raw item from a chest. Fuel is still pulled from chests, including with the fill-all modifier.
 - Build & Craft From Containers: no longer pays a second time when another mod that also pulls from nearby containers has already paid for the build/craft, which could consume double the materials.

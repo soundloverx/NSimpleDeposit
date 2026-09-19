@@ -15,7 +15,7 @@ namespace NSimpleDeposit
     {
         private const string PluginGuid = "NSimpleDeposit";
         private const string PluginName = "NSimpleDeposit";
-        private const string PluginVersion = "1.1.1";
+        private const string PluginVersion = "1.2.0";
 
         internal static Plugin Instance { get; private set; }
         internal static ManualLogSource Log { get; private set; }
@@ -23,11 +23,14 @@ namespace NSimpleDeposit
         private ConfigEntry<float> _searchRadius;
         private ConfigEntry<KeyboardShortcut> _quickStackShortcut;
         private ConfigEntry<KeyboardShortcut> _fillAllModifierKey;
+        private ConfigEntry<KeyboardShortcut> _hotbarSwapShortcut;
         private Harmony _harmonyInstance;
 
         internal static float SearchRadius => Instance?._searchRadius != null ? Instance._searchRadius.Value : 25f;
         internal static KeyboardShortcut QuickStackShortcut => Instance?._quickStackShortcut != null ? Instance._quickStackShortcut.Value : new KeyboardShortcut(KeyCode.P);
         internal static KeyboardShortcut FillAllModifierKey => Instance?._fillAllModifierKey != null ? Instance._fillAllModifierKey.Value : new KeyboardShortcut(KeyCode.LeftShift);
+
+        internal static KeyboardShortcut HotbarSwapShortcut => Instance?._hotbarSwapShortcut != null ? Instance._hotbarSwapShortcut.Value : new KeyboardShortcut(KeyCode.BackQuote);
 
         private void Awake()
         {
@@ -58,6 +61,13 @@ namespace NSimpleDeposit
                 "Hold this modifier while using a fireplace/light or a smelter/kiln to fill it to capacity (fuel or ore) from your inventory and nearby containers in one interaction, instead of adding one unit at a time."
             );
 
+            _hotbarSwapShortcut = Config.Bind(
+                "General",
+                "HotbarSwapShortcut",
+                new KeyboardShortcut(KeyCode.BackQuote),
+                "Keyboard shortcut used to swap the hotbar (first inventory row) with the second inventory row."
+            );
+
             Assembly assembly = Assembly.GetExecutingAssembly();
             _harmonyInstance = new Harmony(PluginGuid);
             _harmonyInstance.PatchAll(assembly);
@@ -66,6 +76,32 @@ namespace NSimpleDeposit
         }
 
         private void Update()
+        {
+            HandleHotbarSwap();
+            HandleQuickStack();
+        }
+
+        private static void HandleHotbarSwap()
+        {
+            if (!HotbarSwapShortcut.IsDown() || IsTypingInInputField())
+            {
+                return;
+            }
+
+            Player player = Player.m_localPlayer;
+
+            if (player == null)
+            {
+                return;
+            }
+
+            if (HotbarSwapService.SwapHotbarRows(player))
+            {
+                player.Message(MessageHud.MessageType.Center, "Hotbar swapped");
+            }
+        }
+
+        private static void HandleQuickStack()
         {
             if (!QuickStackShortcut.IsDown())
             {

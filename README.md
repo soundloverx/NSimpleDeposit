@@ -41,7 +41,7 @@ Click the **S** button to sort your inventory.
 
 If a chest is currently open, the chest will also be sorted, and any player-built chest you have access to is also sorted automatically the moment you open it.
 
-The player's hotbar, equipped items, and locked items will not be moved.
+In your own inventory, the hotbar, equipped items, and locked items will not be moved. Chests are sorted completely: locks only apply to your own inventory, so locked item types inside a chest are sorted like everything else.
 
 Partial stacks of the same item type and quality are combined into as few stacks as possible first (e.g. two stacks of 10 Wood become one stack of 20), freeing up slots before the remaining items are placed. Equipped items, hotbar items, and locked item types are never topped up or drained by this - they stay exactly as they are.
 
@@ -54,13 +54,23 @@ Locked items will have a blue border around them.
 Locked items are:
 
 - Skipped by Quick Stack, so they will never be automatically moved into a chest
-- Left in place when sorting, just like equipped and hotbar items
+- Left in place when sorting your inventory, just like equipped and hotbar items (locks don't apply to chests being sorted)
 
 Alt + Right Click the item again to remove the lock.
 
 Once an item type is marked as locked, newly picked up items of that same type will also be locked.
 
 Lock selections are saved per character (stored in that character's own save data, alongside things like skills and known recipes), so they follow that character into any world but are not shared with your other characters.
+
+### Hotbar Swap
+
+Press the hotbar swap shortcut (default backtick) to swap your hotbar (the first inventory row) with the second inventory row. This lets you keep two hotbar setups, such as tools and weapons, and switch between them without opening the inventory. Press it again to swap back.
+
+- Only the first two rows are swapped; the rest of your inventory is untouched
+- Locked items are not left behind: they move with their row like any other item
+- Equipped items stay equipped and simply move with their row
+- A `Hotbar swapped` message is shown so an accidental key press is noticeable
+- The shortcut is ignored while typing in a text field
 
 ### Build & Craft From Containers
 
@@ -103,3 +113,4 @@ Configuration options include:
 - Search radius (shared by Quick Stack and Build & Craft From Containers)
 - Quick Stack keyboard shortcut
 - Fill-all modifier key (default Left Shift)
+- Hotbar swap keyboard shortcut (default backtick)
