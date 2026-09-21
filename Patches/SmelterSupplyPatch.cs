@@ -95,6 +95,9 @@ namespace NSimpleDeposit.Patches
             Dictionary<string, int> added = new Dictionary<string, int>();
             List<Container> containers = null;
 
+            // Pass 1: everything the player is carrying, across all accepted ore types. This must finish
+            // before any chest is touched, otherwise an earlier conversion's chest ore can fill the queue
+            // while a later conversion's ore is still sitting in the inventory.
             foreach (Smelter.ItemConversion conversion in __instance.m_conversion)
             {
                 if (queueSize >= __instance.m_maxOre)
@@ -104,29 +107,39 @@ namespace NSimpleDeposit.Patches
 
                 string itemName = conversion.m_from.m_itemData.m_shared.m_name;
 
-                if (inventory.HaveItem(itemName))
-                {
-                    ItemDrop.ItemData invItem = inventory.GetItem(itemName);
-
-                    if (invItem != null && invItem.m_dropPrefab != null)
-                    {
-                        int amount = Mathf.Min(__instance.m_maxOre - queueSize, inventory.CountItems(itemName));
-                        inventory.RemoveItem(itemName, amount);
-
-                        for (int i = 0; i < amount; i++)
-                        {
-                            nview.InvokeRPC("RPC_AddOre", new object[] { invItem.m_dropPrefab.name, false });
-                        }
-
-                        queueSize += amount;
-                        AddCount(added, itemName, amount);
-                    }
-                }
-
-                if (queueSize >= __instance.m_maxOre)
+                if (!inventory.HaveItem(itemName))
                 {
                     continue;
                 }
+
+                ItemDrop.ItemData invItem = inventory.GetItem(itemName);
+
+                if (invItem == null || invItem.m_dropPrefab == null)
+                {
+                    continue;
+                }
+
+                int amount = Mathf.Min(__instance.m_maxOre - queueSize, inventory.CountItems(itemName));
+                inventory.RemoveItem(itemName, amount);
+
+                for (int i = 0; i < amount; i++)
+                {
+                    nview.InvokeRPC("RPC_AddOre", new object[] { invItem.m_dropPrefab.name, false });
+                }
+
+                queueSize += amount;
+                AddCount(added, itemName, amount);
+            }
+
+            // Pass 2: top up whatever room is left from nearby chests.
+            foreach (Smelter.ItemConversion conversion in __instance.m_conversion)
+            {
+                if (queueSize >= __instance.m_maxOre)
+                {
+                    break;
+                }
+
+                string itemName = conversion.m_from.m_itemData.m_shared.m_name;
 
                 if (containers == null)
                 {

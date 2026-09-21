@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.2.1
+- Smelters, kilns, and blast furnaces: the fill-all modifier now uses ore from your inventory before pulling any from nearby chests, across all ore types the station accepts. Previously each ore type was handled in turn, so chest ore of an earlier type could fill the queue while a later type (e.g. a full stack of tin) was still sitting in your inventory.
+
 ## v1.2.0
 - Hotbar Swap: new keyboard shortcut (default backtick, configurable as `HotbarSwapShortcut`) that swaps the first inventory row (your hotbar) with the second row, so you can flip between two hotbar setups (e.g. tools and weapons) without opening the inventory. Only those two rows are swapped. Locked and equipped items simply move with their row, and a `Hotbar swapped` message is shown so an accidental press is noticeable. The shortcut is ignored while a text field is focused.
 - Sort: locks now only apply to your own inventory. Sorting a chest sorts every item in it, including item types you have locked.
