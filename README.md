@@ -55,6 +55,7 @@ Locked items are:
 
 - Skipped by Quick Stack, so they will never be automatically moved into a chest
 - Left in place when sorting your inventory, just like equipped and hotbar items (locks don't apply to chests being sorted)
+- Left in place when a fireplace, cooking station, or smelter/kiln automatically pulls fuel or ore from your inventory (see [Build & Craft From Containers](#build--craft-from-containers)) - the same item type is still pulled from nearby chests as normal
 
 Alt + Right Click the item again to remove the lock.
 
@@ -82,6 +83,8 @@ Feeding fuel, ore, or ammo also pulls from nearby chests when your own inventory
 - Smelters, charcoal kilns, and blast furnaces - ore and fuel
 - Cooking stations (cooking station, iron cooking station, stone oven, and similar) - fuel only (food to cook still has to come from your inventory)
 - Turrets - ammunition
+
+For fireplace fuel and smelter/cooking station fuel and ore specifically, a [locked](#lock-items) item type in your own inventory is never spent automatically - only nearby chests are used to top it up. This does not apply to building pieces or manual crafting, which use locked inventory items like any other.
 
 The crafting/building requirement panel always shows the combined inventory + nearby-container amount (e.g. `200/4` if you need 4 wood and have 200 spread across your inventory and nearby chests combined), instead of vanilla's plain required-amount display. It's highlighted when nearby containers are what's making up the difference.
 

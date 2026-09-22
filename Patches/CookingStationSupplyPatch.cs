@@ -25,7 +25,7 @@ namespace NSimpleDeposit.Patches
             string fuelName = __instance.m_fuelItem.m_itemData.m_shared.m_name;
             bool fillAll = InputService.IsHeld(Plugin.FillAllModifierKey);
 
-            if (inventory == null || (inventory.HaveItem(fuelName) && !fillAll))
+            if (inventory == null || (InventoryLockService.HaveUnlockedItem(inventory, fuelName) && !fillAll))
             {
                 return true;
             }
@@ -42,9 +42,9 @@ namespace NSimpleDeposit.Patches
 
             int added = 0;
 
-            if (fillAll && inventory.HaveItem(fuelName))
+            if (fillAll && InventoryLockService.HaveUnlockedItem(inventory, fuelName))
             {
-                int amount = (int)Mathf.Min(__instance.m_maxFuel - currentFuel, inventory.CountItems(fuelName));
+                int amount = (int)Mathf.Min(__instance.m_maxFuel - currentFuel, InventoryLockService.CountUnlockedItems(inventory, fuelName));
                 inventory.RemoveItem(fuelName, amount);
 
                 for (int i = 0; i < amount; i++)
@@ -72,6 +72,14 @@ namespace NSimpleDeposit.Patches
 
             if (added <= 0)
             {
+                // vanilla's own fallback doesn't know about locks, so only let it run when the fuel
+                // type isn't locked - otherwise it would happily spend the locked stack we just skipped
+                if (LockService.IsLocked(fuelName))
+                {
+                    __result = false;
+                    return false;
+                }
+
                 return true;
             }
 

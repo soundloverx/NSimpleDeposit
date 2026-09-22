@@ -16,6 +16,16 @@ namespace NSimpleDeposit
                 return false;
             }
 
+            return IsLocked(item.m_shared.m_name);
+        }
+
+        internal static bool IsLocked(string itemName)
+        {
+            if (string.IsNullOrEmpty(itemName))
+            {
+                return false;
+            }
+
             Player player = Player.m_localPlayer;
 
             if (player == null || player.m_customData == null)
@@ -23,7 +33,7 @@ namespace NSimpleDeposit
                 return false;
             }
 
-            return player.m_customData.ContainsKey(LockedKeyPrefix + item.m_shared.m_name);
+            return player.m_customData.ContainsKey(LockedKeyPrefix + itemName);
         }
 
         internal static void ToggleLocked(Player player, ItemDrop.ItemData item)

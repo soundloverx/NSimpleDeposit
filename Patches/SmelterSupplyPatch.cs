@@ -64,7 +64,7 @@ namespace NSimpleDeposit.Patches
         {
             foreach (Smelter.ItemConversion conversion in __instance.m_conversion)
             {
-                if (inventory.HaveItem(conversion.m_from.m_itemData.m_shared.m_name))
+                if (InventoryLockService.HaveUnlockedItem(inventory, conversion.m_from.m_itemData.m_shared.m_name))
                 {
                     return true;
                 }
@@ -87,7 +87,9 @@ namespace NSimpleDeposit.Patches
                 return false;
             }
 
-            return true;
+            // vanilla's own fallback doesn't know about locks, so only let it run when none of the
+            // accepted ore types are locked - otherwise it would happily spend a locked stack we skipped
+            return !AnyConversionLocked(__instance.m_conversion);
         }
 
         private static bool TryFillAllOre(Smelter __instance, Humanoid user, ZNetView nview, Player player, Inventory inventory, int queueSize)
@@ -107,7 +109,7 @@ namespace NSimpleDeposit.Patches
 
                 string itemName = conversion.m_from.m_itemData.m_shared.m_name;
 
-                if (!inventory.HaveItem(itemName))
+                if (!InventoryLockService.HaveUnlockedItem(inventory, itemName))
                 {
                     continue;
                 }
@@ -119,7 +121,7 @@ namespace NSimpleDeposit.Patches
                     continue;
                 }
 
-                int amount = Mathf.Min(__instance.m_maxOre - queueSize, inventory.CountItems(itemName));
+                int amount = Mathf.Min(__instance.m_maxOre - queueSize, InventoryLockService.CountUnlockedItems(inventory, itemName));
                 inventory.RemoveItem(itemName, amount);
 
                 for (int i = 0; i < amount; i++)
@@ -163,8 +165,9 @@ namespace NSimpleDeposit.Patches
 
             if (added.Count == 0)
             {
-                // nothing found via containers/extra inventory stacks - let vanilla try its own single-item pull
-                return true;
+                // nothing found via containers/extra inventory stacks - let vanilla try its own single-item
+                // pull, but only when none of the accepted ore types are locked, for the same reason as above
+                return !AnyConversionLocked(__instance.m_conversion);
             }
 
             List<string> messages = new List<string>();
@@ -194,7 +197,7 @@ namespace NSimpleDeposit.Patches
             string fuelName = __instance.m_fuelItem.m_itemData.m_shared.m_name;
             bool fillAll = InputService.IsHeld(Plugin.FillAllModifierKey);
 
-            if (inventory == null || (inventory.HaveItem(fuelName) && !fillAll))
+            if (inventory == null || (InventoryLockService.HaveUnlockedItem(inventory, fuelName) && !fillAll))
             {
                 return true;
             }
@@ -208,9 +211,9 @@ namespace NSimpleDeposit.Patches
 
             int added = 0;
 
-            if (fillAll && inventory.HaveItem(fuelName))
+            if (fillAll && InventoryLockService.HaveUnlockedItem(inventory, fuelName))
             {
-                int amount = (int)Mathf.Min(__instance.m_maxFuel - currentFuel, inventory.CountItems(fuelName));
+                int amount = (int)Mathf.Min(__instance.m_maxFuel - currentFuel, InventoryLockService.CountUnlockedItems(inventory, fuelName));
                 inventory.RemoveItem(fuelName, amount);
 
                 for (int i = 0; i < amount; i++)
@@ -238,6 +241,14 @@ namespace NSimpleDeposit.Patches
 
             if (added <= 0)
             {
+                // vanilla's own fallback doesn't know about locks, so only let it run when the fuel
+                // type isn't locked - otherwise it would happily spend the locked stack we just skipped
+                if (LockService.IsLocked(fuelName))
+                {
+                    __result = false;
+                    return false;
+                }
+
                 return true;
             }
 
@@ -290,6 +301,19 @@ namespace NSimpleDeposit.Patches
 
             counts.TryGetValue(key, out int existing);
             counts[key] = existing + amount;
+        }
+
+        private static bool AnyConversionLocked(List<Smelter.ItemConversion> conversions)
+        {
+            foreach (Smelter.ItemConversion conversion in conversions)
+            {
+                if (LockService.IsLocked(conversion.m_from.m_itemData.m_shared.m_name))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

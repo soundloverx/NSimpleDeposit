@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.2.2
+- Fireplaces, cooking stations, and smelters/kilns/blast furnaces no longer spend a locked item type out of your own inventory when auto-adding fuel or ore (including with the fill-all modifier) - a locked item type sitting in your inventory is left alone. The same item type can still be pulled from nearby chests, so a chest full of it is still used automatically; only your own carried, locked stack is protected. Building pieces and manual crafting are unaffected and still use locked inventory items as normal.
+
 ## v1.2.1
 - Smelters, kilns, and blast furnaces: the fill-all modifier now uses ore from your inventory before pulling any from nearby chests, across all ore types the station accepts. Previously each ore type was handled in turn, so chest ore of an earlier type could fill the queue while a later type (e.g. a full stack of tin) was still sitting in your inventory.
 

@@ -108,6 +108,7 @@
     <Compile Include="Services\ContainerService.cs" />
     <Compile Include="Services\HotbarSwapService.cs" />
     <Compile Include="Services\InputService.cs" />
+    <Compile Include="Services\InventoryLockService.cs" />
     <Compile Include="Services\InventorySortService.cs" />
     <Compile Include="Services\LockService.cs" />
     <Compile Include="Services\PlayerInventoryService.cs" />
