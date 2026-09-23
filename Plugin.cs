@@ -15,7 +15,7 @@ namespace NSimpleDeposit
     {
         private const string PluginGuid = "NSimpleDeposit";
         private const string PluginName = "NSimpleDeposit";
-        private const string PluginVersion = "1.2.3";
+        private const string PluginVersion = "1.2.4";
 
         internal static Plugin Instance { get; private set; }
         internal static ManualLogSource Log { get; private set; }
@@ -83,7 +83,7 @@ namespace NSimpleDeposit
 
         private static void HandleHotbarSwap()
         {
-            if (!HotbarSwapShortcut.IsDown() || IsTypingInInputField())
+            if (!InputService.IsDown(HotbarSwapShortcut) || IsTypingInInputField())
             {
                 return;
             }
@@ -103,7 +103,7 @@ namespace NSimpleDeposit
 
         private static void HandleQuickStack()
         {
-            if (!QuickStackShortcut.IsDown())
+            if (!InputService.IsDown(QuickStackShortcut))
             {
                 return;
             }

@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.2.4
+- Quick Stack and Hotbar Swap hotkeys now work while moving or running. Previously, holding any other key (such as movement keys or Shift) caused the hotkey press to be ignored.
+
 ## v1.2.3
 - Shield generators now pull fuel (any of the bone types they accept) from nearby chests when your inventory has none, and support the fill-all modifier (default Left Shift) to fill them to capacity from your inventory first, then nearby chests. As with the other stations, a locked bone type in your own inventory is never spent automatically.
 - Refuelling a fireplace/light, smelter/kiln/blast furnace, cooking station, or shield generator now shows a message when nothing could be added: `Inventory items locked` if the only fuel available is a locked item type in your inventory, or `Unable to find fuel` if there is none in your inventory or nearby chests. This replaces the game's own "out of"/"don't have any" message in that situation.
