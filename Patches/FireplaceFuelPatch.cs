@@ -85,15 +85,10 @@ namespace NSimpleDeposit.Patches
 
             if (added <= 0)
             {
-                // vanilla's own fallback doesn't know about locks, so only let it run when the fuel
-                // type isn't locked - otherwise it would happily spend the locked stack we just skipped
-                if (LockService.IsLocked(fuelName))
-                {
-                    __result = false;
-                    return false;
-                }
+                InventoryLockService.ShowNoFuelMessage(user, inventory, fuelName);
+                __result = false;
 
-                return true;
+                return false;
             }
 
             user.Message(MessageHud.MessageType.Center, Localization.instance.Localize("$msg_fireadding", new[] { fuelName }));

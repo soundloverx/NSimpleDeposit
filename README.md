@@ -55,7 +55,7 @@ Locked items are:
 
 - Skipped by Quick Stack, so they will never be automatically moved into a chest
 - Left in place when sorting your inventory, just like equipped and hotbar items (locks don't apply to chests being sorted)
-- Left in place when a fireplace, cooking station, or smelter/kiln automatically pulls fuel or ore from your inventory (see [Build & Craft From Containers](#build--craft-from-containers)) - the same item type is still pulled from nearby chests as normal
+- Left in place when a fireplace, cooking station, smelter/kiln, or shield generator automatically pulls fuel or ore from your inventory (see [Build & Craft From Containers](#build--craft-from-containers)) - the same item type is still pulled from nearby chests as normal
 
 Alt + Right Click the item again to remove the lock.
 
@@ -82,15 +82,18 @@ Feeding fuel, ore, or ammo also pulls from nearby chests when your own inventory
 - Fireplaces (campfires, hearths, bonfires) - fuel
 - Smelters, charcoal kilns, and blast furnaces - ore and fuel
 - Cooking stations (cooking station, iron cooking station, stone oven, and similar) - fuel only (food to cook still has to come from your inventory)
+- Shield generators - fuel (any of the bone types it accepts)
 - Turrets - ammunition
 
-For fireplace fuel and smelter/cooking station fuel and ore specifically, a [locked](#lock-items) item type in your own inventory is never spent automatically - only nearby chests are used to top it up. This does not apply to building pieces or manual crafting, which use locked inventory items like any other.
+For fireplace fuel, shield generator fuel, and smelter/cooking station fuel and ore specifically, a [locked](#lock-items) item type in your own inventory is never spent automatically - only nearby chests are used to top it up. This does not apply to building pieces or manual crafting, which use locked inventory items like any other.
+
+If a fuel station can't be refuelled because no usable fuel was found, a message explains why: `Inventory items locked` when the only fuel available is a locked item type in your own inventory, or `Unable to find fuel` when there is none in your inventory or in nearby chests. This applies to fireplaces/lights, smelters/kilns/blast furnaces, cooking stations, and shield generators.
 
 The crafting/building requirement panel always shows the combined inventory + nearby-container amount (e.g. `200/4` if you need 4 wood and have 200 spread across your inventory and nearby chests combined), instead of vanilla's plain required-amount display. It's highlighted when nearby containers are what's making up the difference.
 
 If another installed mod that also pulls from nearby containers has already paid for a build or craft, this mod leaves it alone instead of paying a second time. Running two mods that do the same job is still best avoided, since they can disagree about what's available.
 
-Holding the fill-all modifier key (default **Left Shift**) while interacting with a fireplace/light, a smelter/kiln, or a cooking station's fuel switch fills it to capacity in one go - fuel or ore is pulled from your inventory first, then nearby containers, instead of adding one unit per interaction. A hover-text hint appears on these objects showing the key when using it would do something.
+Holding the fill-all modifier key (default **Left Shift**) while interacting with a fireplace/light, a smelter/kiln, a cooking station's fuel switch, or a shield generator fills it to capacity in one go - fuel or ore is pulled from your inventory first, then nearby containers, instead of adding one unit per interaction. A hover-text hint appears on these objects showing the key when using it would do something.
 
 ## Container Access
 

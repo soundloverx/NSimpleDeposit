@@ -15,5 +15,21 @@ namespace NSimpleDeposit
         {
             return LockService.IsLocked(itemName) ? 0 : inventory.CountItems(itemName);
         }
+
+        // Shown by the station fuel patches when nothing could be added, in place of vanilla's own fallback
+        // (which doesn't know about locks and would spend a locked stack).
+        internal static void ShowNoFuelMessage(Humanoid user, Inventory inventory, params string[] fuelNames)
+        {
+            foreach (string fuelName in fuelNames)
+            {
+                if (LockService.IsLocked(fuelName) && inventory.HaveItem(fuelName))
+                {
+                    user.Message(MessageHud.MessageType.Center, "Inventory items locked");
+                    return;
+                }
+            }
+
+            user.Message(MessageHud.MessageType.Center, "Unable to find fuel");
+        }
     }
 }

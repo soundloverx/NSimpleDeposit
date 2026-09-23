@@ -99,6 +99,7 @@
     <Compile Include="Patches\InventoryGuiPatch.cs" />
     <Compile Include="Patches\InventoryGuiRequirementPatch.cs" />
     <Compile Include="Patches\PlayerPatch.cs" />
+    <Compile Include="Patches\ShieldGeneratorFuelPatch.cs" />
     <Compile Include="Patches\SmelterSupplyPatch.cs" />
     <Compile Include="Patches\TurretAmmoPatch.cs" />
     <Compile Include="Plugin.cs" />

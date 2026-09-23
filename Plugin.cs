@@ -15,7 +15,7 @@ namespace NSimpleDeposit
     {
         private const string PluginGuid = "NSimpleDeposit";
         private const string PluginName = "NSimpleDeposit";
-        private const string PluginVersion = "1.2.2";
+        private const string PluginVersion = "1.2.3";
 
         internal static Plugin Instance { get; private set; }
         internal static ManualLogSource Log { get; private set; }
